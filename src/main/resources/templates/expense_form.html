@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" th:action="@{'/expense/add/' + ${personId}}">
+    <label for="where">Name</label>
+    <input type="text" id="where" placeholder="Where" th:field="*{expense.where}">
+    <button type="submit">OK</button>
+</form>
+</body>
+</html>

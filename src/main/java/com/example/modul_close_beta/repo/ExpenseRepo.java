@@ -12,4 +12,6 @@ import java.util.List;
 @Repository
 public interface ExpenseRepo extends JpaRepository<Expense, Integer> {
     List<Expense> getExpensesByOwner(Person person);
+
+    Integer deleteAllByOwner(Person person);
 }

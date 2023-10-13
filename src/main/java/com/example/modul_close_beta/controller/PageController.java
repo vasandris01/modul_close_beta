@@ -19,11 +19,5 @@ public class PageController {
         return "home";
     }
 
-    @GetMapping("/person/{id}")
-    public String getPersonById(Model model, @PathVariable Integer id){
-        Person person = entityService.getPersonById(id);
-        model.addAttribute("expenses", entityService.getAllExpensesByPerson(person));
-        model.addAttribute("person", person);
-        return "person";
-    }
+
 }

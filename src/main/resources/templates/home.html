@@ -22,10 +22,18 @@
                 <p>Show</p>
             </a>
         </td>
-
+        <td>
+            <form th:action="@{'/person/delete/' + ${current.id}}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit">Delete</button>
+            </form>
+        </td>
 
     </tr>
     </thead>
 </table>
+<a th:href="@{/person/new}">
+    <p>New Person</p>
+</a>
 </body>
 </html>
