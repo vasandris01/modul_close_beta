@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+<h1 th:text="${person.id}"></h1>
+<h1 th:text="${person.name}"></h1>
+<h1 th:text="${person.birthPlace}"></h1>
+<h1 th:text="${person.birthDate}"></h1>
+<h1 th:text="${person.email}"></h1>
+<ul>
+    <li th:each="expense : ${expenses}" th:text="${expense}"></li>
+</ul>
 </body>
 </html>
