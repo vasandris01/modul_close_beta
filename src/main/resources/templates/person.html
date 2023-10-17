@@ -14,9 +14,9 @@
     <li th:each="expense : ${expenses}" th:text="${expense}"></li>
 </ul>
 
-<form th:action="@{'/expense/new/' + ${person.id}}" type="post">
+<a th:href="@{'/expense/new/' + ${person.id}}">
     <p>New Expense</p>
-</form>
+</a>
 <form th:action="@{'/person/delete/' + ${person.id}}" method="post">
     <input type="hidden" name="_method" value="delete" />
     <button type="submit">Delete</button>

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonRepo extends JpaRepository<Person, Integer> {
-    void updatePersonBy();
+
 }

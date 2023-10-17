@@ -14,7 +14,7 @@ public class PersonController {
     private EntityService entityService;
 
     @GetMapping("/{id}")
-    public String getPersonById(Model model, @PathVariable Integer id){
+    public String getPersonById(Model model, @PathVariable Integer id) {
         Person person = entityService.getPersonById(id);
         model.addAttribute("expenses", entityService.getAllExpensesByPerson(person));
         model.addAttribute("person", person);
@@ -22,28 +22,41 @@ public class PersonController {
     }
 
     @GetMapping("/new")
-    public String createPerson(Model model){
+    public String createPerson(Model model) {
         model.addAttribute("person", new Person());
         return "person_form";
     }
 
     @PostMapping("/add")
-    public String createPerson(@ModelAttribute("person") Person person){
+    public String createPerson(@ModelAttribute("person") Person person) {
         entityService.savePerson(person);
         return "redirect:/home";
     }
 
     @PostMapping("/delete/{id}")
-    public String deletePerson(@PathVariable("id") Integer id){
+    public String deletePerson(@PathVariable("id") Integer id) {
         entityService.deleteExpensesByPerson(entityService.getPersonById(id));
         entityService.deletePersonById(id);
         return "redirect:/home";
     }
 
+    @GetMapping("/update/{id}")
+    public String updatePerson(Model model, @PathVariable("id") Integer id) {
+        model.addAttribute("person", entityService.getPersonById(id));
+        return "person_update";
+    }
+
     @PostMapping("/update/{id}")
-    public String updatePerson(@PathVariable("id") Integer id, @ModelAttribute("person") Person updated){
-        entityService.updatePerson(updated, entityService.getPersonById(id));
+    public String updatePerson(@PathVariable("id") Integer id, @ModelAttribute("person") Person updated) {
+        entityService.savePerson(updated);
         return "redirect:/person/" + id;
     }
 
+    @GetMapping("/most-expense")
+    public String getMostExpense(Model model) {
+        Person person = entityService.getMostExpensesPerson();
+        model.addAttribute("person", person);
+        model.addAttribute("expenses", entityService.getAllExpensesByPerson(person));
+        return "person";
+    }
 }

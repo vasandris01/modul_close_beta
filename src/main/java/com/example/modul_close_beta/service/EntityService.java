@@ -8,7 +8,9 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -50,10 +52,46 @@ public class EntityService {
         expenseRepo.deleteAllByOwner(person);
     }
 
-    public void updatePerson(Person updated, Person old) {
-        if(updated.getBirthDate().equals(null)){
-            old.setBirthDate(updated.getBirthDate());
-        }
 
+    public Person getMostExpensesPerson() {
+        Map<Person, Integer> personExpenses = fillPersonsMap();
+        return getMaxExpensesFromPersonExpensesMap(personExpenses);
+    }
+
+    public Person getMaxExpensesFromPersonExpensesMap(Map<Person, Integer> personExpenses){
+        int max = 0;
+        for (var actual: personExpenses.entrySet()) {
+            if(actual.getValue() > max){
+                max = actual.getValue();
+            }
+        }
+        for (var actual: personExpenses.entrySet()) {
+            if(actual.getValue() == max){
+                return actual.getKey();
+            }
+        }
+        return null;
+    }
+
+    private Map<Person, Integer> fillPersonsMap() {
+        Map<Person, Integer> personExpenses = new HashMap<>();
+        fillPersonsMapWithPerson(personExpenses);
+        fillPersonsMapWithExpenses(personExpenses);
+        return personExpenses;
+    }
+
+    private void fillPersonsMapWithPerson(Map<Person, Integer> personExpenses) {
+        List<Person> persons = getAllPerson();
+        for (Person actual : persons) {
+            personExpenses.put(actual, 0);
+        }
+    }
+
+    private void fillPersonsMapWithExpenses(Map<Person, Integer> personExpenses) {
+        List<Expense> expenses = getAllExpenses();
+        for (Expense actual : expenses) {
+            Person actualPerson = actual.getOwner();
+            personExpenses.put(actualPerson, personExpenses.get(actualPerson) + actual.getAmount());
+        }
     }
 }
